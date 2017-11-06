@@ -3,7 +3,9 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'sf-buses',
-    environment: environment
+    environment: environment,
+    rootURL: '/',
+    locationType: 'history',
   };
 
   return ENV;

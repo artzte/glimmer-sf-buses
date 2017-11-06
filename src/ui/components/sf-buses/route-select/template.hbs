@@ -1,0 +1,8 @@
+<select value={{@value}} class='route-select' onchange={{action onChange}}>
+  <option value=''>Select a route</option>
+  {{#each @routes key="@index" as |route|}}
+    <option value={{route.tag}}>
+      {{route.title}}
+    </option>
+  {{/each}}
+</select>

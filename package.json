@@ -25,6 +25,7 @@
     "ember-cli-inject-live-reload": "^1.6.1",
     "ember-cli-sass": "^6.2.0",
     "ember-cli-uglify": "^2.0.0-beta.1",
+    "navigo": "^5.3.3",
     "qunitjs": "^2.3.3",
     "typescript": "^2.2.2"
   },
