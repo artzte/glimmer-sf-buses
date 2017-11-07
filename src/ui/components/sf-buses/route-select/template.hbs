@@ -1,8 +1,16 @@
-<select value={{@value}} class='route-select' onchange={{action onChange}}>
-  <option value=''>Select a route</option>
-  {{#each @routes key="@index" as |route|}}
-    <option value={{route.tag}}>
-      {{route.title}}
-    </option>
-  {{/each}}
-</select>
+<nav>
+  <h2 onclick={{action showSelect}}>
+    {{@selectedRoute.title}}
+  </h2>
+  <ul class={{visible}}>
+    {{#each @routes key="@index" as |route|}}
+      <rs-option
+        @onclick={{action selectRoute route}}
+        @selectedRoute={{@selectedRoute}}
+        @route={{route}}
+      >
+        {{route.title}}
+      </rs-option>
+    {{/each}}
+  </ul>
+</nav>

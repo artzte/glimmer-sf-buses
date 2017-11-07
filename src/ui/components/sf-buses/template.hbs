@@ -1,4 +1,9 @@
-<h1>San Francisco Buses</h1>
-<h2>{{selectedRouteName}}</h2>
-<route-select @routes={{routes}} @value={{selectedRoute}} @on-change={{action selectRoute}} />
+<section>
+  <h1>San Francisco Buses</h1>
+</section>
+<route-select
+  @routes={{routes}}
+  @selectedRoute={{selectedRoute}}
+  @selectRoute={{action selectRoute}}
+/>
 <route-map @selectedRoute={{selectedRoute}}></route-map>

@@ -6,7 +6,7 @@ const router = new Navigo(null, true, '#!');
 
 export default class SfBuses extends Component {
   @tracked routes = []
-  @tracked selectedRoute = ''
+  @tracked selectedRouteTag = ''
   @tracked loading = true
 
   didInsertElement() {
@@ -28,22 +28,19 @@ export default class SfBuses extends Component {
 
   // Property handlers
   //
-  @tracked('selectedRoute')
-  get selectedRouteName() {
-    const selectedRoute = this.selectedRoute;
+  @tracked('selectedRouteTag')
+  get selectedRoute() {
+    const { selectedRouteTag } = this;
 
-    if (!selectedRoute) return 'All routes';
+    if (!selectedRouteTag) return null;
 
-    const matchingRoute = this.routes.find(route => route.tag === selectedRoute);
-    if (matchingRoute) {
-      return matchingRoute.title;
-    }
+    return this.routes.find(route => route.tag === selectedRouteTag);
   }
 
   // Action handlers
   //
   selectRoute(route) {
-    router.navigate(`/routes/${route}`);
+    router.navigate(`/routes/${route.tag}`);
   }
 
   // Route handlers
@@ -58,11 +55,11 @@ export default class SfBuses extends Component {
 
   showRoot() {
     console.log('showRoot')
-    this.selectedRoute = '';
+    this.selectedRouteTag = '';
   }
 
   showRoute(params) {
     console.log(params)
-    this.selectedRoute = params.route;
+    this.selectedRouteTag = params.route;
   }
 }

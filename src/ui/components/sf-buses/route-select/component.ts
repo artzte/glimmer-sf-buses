@@ -1,7 +1,14 @@
 import Component, { tracked } from '@glimmer/component';
 
 export default class RouteSelect extends Component {
-  onChange(event) {
-    this.args['on-change'](event.target.value);
+  @tracked visible = 'hidden'
+
+  showSelect() {
+    this.visible = this.visible === 'visible' ? 'hidden' : 'visible';
+  }
+
+  selectRoute(route) {
+    this.visible = 'hidden';
+    this.args.selectRoute(route);
   }
 };
