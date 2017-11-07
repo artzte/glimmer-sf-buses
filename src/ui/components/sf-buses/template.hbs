@@ -1,6 +1,4 @@
 <h1>San Francisco Buses</h1>
-{{#if selectedRoute}}
-  <h2>{{selectedRouteName}}</h2>
-{{/if}}
+<h2>{{selectedRouteName}}</h2>
 <route-select @routes={{routes}} @value={{selectedRoute}} @on-change={{action selectRoute}} />
 <route-map @selectedRoute={{selectedRoute}}></route-map>

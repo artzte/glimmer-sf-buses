@@ -182,6 +182,14 @@
   dependencies:
     "@glimmer/util" "^0.26.2"
 
+"@google/maps@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@google/maps/-/maps-0.4.5.tgz#72eb9cf8e7de944619245d0f8f3f969571ea84d8"
+
+"@types/googlemaps@^3.29.2":
+  version "3.29.2"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.29.2.tgz#6af8b3f6b94a2d4f590b95c738b905a49b97aa91"
+
 "@types/qunit@^2.0.31":
   version "2.0.31"
   resolved "https://registry.yarnpkg.com/@types/qunit/-/qunit-2.0.31.tgz#a53e2cf635262c8bf46a71a137d8c7970dde9562"
@@ -2932,6 +2940,10 @@ globule@^1.0.0:
     lodash "~4.17.4"
     minimatch "~3.0.2"
 
+google-maps@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/google-maps/-/google-maps-3.2.1.tgz#c0758f2b175a4a8d110c1abb1fc4cc38c1176e06"
+
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.3, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
@@ -3203,6 +3215,10 @@ inquirer@^2:
     string-width "^2.0.0"
     strip-ansi "^3.0.0"
     through "^2.3.6"
+
+install@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/install/-/install-0.10.1.tgz#1c7b53c8dd7335ef534c2648de28f599df1bdd97"
 
 invariant@^2.2.2:
   version "2.2.2"

@@ -1,5 +1,12 @@
 const propRegex = /(tag|title)="([^"]*)"/g;
 
+function sanitize(string) {
+  return string
+    .replace(/&amp;/g, '&')
+    .replace(/&apos;/g, '\'')
+    .replace(/[^\w-_/ ]/g, '');
+}
+
 function xml2JsonArray(routesXml) {
   return routesXml
     .split('\n')
@@ -8,7 +15,7 @@ function xml2JsonArray(routesXml) {
 
       line.replace(propRegex, function(match, key, value) {
         obj = obj || {};
-        obj[key] = value;
+        obj[key] = sanitize(value);
         return '';
       });
 

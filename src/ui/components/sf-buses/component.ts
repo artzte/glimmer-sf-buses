@@ -12,7 +12,7 @@ export default class SfBuses extends Component {
   didInsertElement() {
     router.hooks({
       before: (done) => {
-        return this.loadRoutesAndNavigate(done);
+        return this.loadRoutes(done);
       },
     });
 
@@ -20,21 +20,35 @@ export default class SfBuses extends Component {
       .on({
         '/routes/:route': (params) => this.showRoute(params),
       })
-      .on(() => this.loaded())
+      .on(() => this.showRoot())
       .resolve();
 
     router.notFound(() => router.navigate('/'));
   }
 
+  // Property handlers
+  //
+  @tracked('selectedRoute')
+  get selectedRouteName() {
+    const selectedRoute = this.selectedRoute;
+
+    if (!selectedRoute) return 'All routes';
+
+    const matchingRoute = this.routes.find(route => route.tag === selectedRoute);
+    if (matchingRoute) {
+      return matchingRoute.title;
+    }
+  }
+
+  // Action handlers
+  //
   selectRoute(route) {
     router.navigate(`/routes/${route}`);
   }
 
-  loaded() {
-    this.selectedRoute = '';
-  }
-
-  loadRoutesAndNavigate(done) {
+  // Route handlers
+  //
+  loadRoutes(done) {
     return fetchRoutes().then((routes) => {
       this.routes = routes;
       this.loading = false;
@@ -42,7 +56,13 @@ export default class SfBuses extends Component {
     });
   }
 
+  showRoot() {
+    console.log('showRoot')
+    this.selectedRoute = '';
+  }
+
   showRoute(params) {
+    console.log(params)
     this.selectedRoute = params.route;
   }
 }
