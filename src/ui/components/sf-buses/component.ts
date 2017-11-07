@@ -12,7 +12,10 @@ export default class SfBuses extends Component {
   didInsertElement() {
     router.hooks({
       before: (done) => {
-        return this.loadRoutes(done);
+        if (this.loading) {
+          return this.loadRoutes(done);
+        }
+        done();
       },
     });
 
