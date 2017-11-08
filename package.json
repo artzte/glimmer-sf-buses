@@ -18,6 +18,7 @@
     "@glimmer/inline-precompile": "^1.0.0",
     "@glimmer/resolver": "^0.3.0",
     "@glimmer/test-helpers": "^0.30.0",
+    "@google/maps": "^0.4.5",
     "@types/googlemaps": "^3.29.2",
     "@types/qunit": "^2.0.31",
     "broccoli-asset-rev": "^2.5.0",
@@ -35,8 +36,6 @@
   },
   "private": true,
   "dependencies": {
-    "@google/maps": "^0.4.5",
-    "google-maps": "^3.2.1",
     "install": "^0.10.1"
   }
 }

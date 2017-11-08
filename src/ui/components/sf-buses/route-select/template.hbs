@@ -1,6 +1,10 @@
 <nav>
   <h2 onclick={{action showSelect}}>
-    {{@selectedRoute.title}}
+    {{#if @selectedRoute}}
+      {{@selectedRoute.title}}
+    {{else}}
+      All {{@routes.length}} routes
+    {{/if}}
   </h2>
   <ul class={{visible}}>
     {{#each @routes key="@index" as |route|}}
