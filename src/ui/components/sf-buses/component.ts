@@ -55,7 +55,9 @@ export default class SfBuses extends Component {
   // Router callbacks
   //
   loadRoutes() {
-    fetchRoutes()
+    const promise = fetchRoutes();
+
+    promise
       .then((routes) => {
         this.routes = routes;
       });
