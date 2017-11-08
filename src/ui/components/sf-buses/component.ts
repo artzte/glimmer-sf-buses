@@ -7,6 +7,7 @@ const router = new Navigo(null, true, '#!');
 export default class SfBuses extends Component {
   @tracked routes : any;
   @tracked selectedRouteTag = '';
+  @tracked loading: Boolean = true;
 
   didInsertElement() {
     this.loadRoutes();
@@ -19,6 +20,13 @@ export default class SfBuses extends Component {
       .resolve();
 
     router.notFound(() => router.navigate('/'));
+  }
+
+  async refreshLocations(routes) {
+    const time = 0;
+
+    console.log('fetching locations with', this, routes)
+    return await Promise.all(routes.map(route => fetchRouteLocations(route, time)));
   }
 
   // Property handlers
@@ -40,13 +48,11 @@ export default class SfBuses extends Component {
 
   // Router callbacks
   //
-  loadRoutes() {
-    const promise = fetchRoutes();
+  async loadRoutes() {
+    const routes = await fetchRoutes()
 
-    promise
-      .then((routes) => {
-        this.routes = routes;
-      });
+    this.routes = routes;
+    this.loading = false;
   }
 
   showRoot() {

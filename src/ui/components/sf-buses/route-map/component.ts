@@ -1,11 +1,12 @@
 import Component, { tracked } from '@glimmer/component';
-import { fetchRouteLocations } from '../../../../utils/fetch-routes';
 
 const apiKey = 'AIzaSyA7xlBaE1zcBwPAKJEnYUO0e2FOOPGAsb0';
 
 export default class RouteMap extends Component {
   map : any;
   markers : any;
+
+  @tracked routesWithLocations: any;
 
   didInsertElement() {
     this.loadGoogleMaps();
@@ -31,28 +32,11 @@ export default class RouteMap extends Component {
       center,
     });
 
-    this.getBusesForRoutes()
-      .then((busesForRoutes) => {
-
-        console.log('busesForRoutes', busesForRoutes);
-        this.drawRoutes(busesForRoutes);
+    this.args.refreshLocations(this.args.routes)
+      .then((routesWithLocations) => {
+        this.routesWithLocations = routesWithLocations;
+        this.drawRoutes(routesWithLocations);
       });
-  }
-
-  async getBusesForRoutes() {
-    const time = 0;
-
-    const routes = this.args.routes;
-
-    console.log('routes', routes);
-
-    return await Promise.all(routes.map(route => fetchRouteLocations(route, time)));
-  }
-
-  @tracked('args')
-  get argsUpdated() {
-    console.log('args', this.args);
-    return this.args;
   }
 
   drawRoutes(routes) {

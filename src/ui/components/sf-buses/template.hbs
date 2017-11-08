@@ -2,7 +2,9 @@
   <h1>San Francisco Buses</h1>
 </section>
 
-{{#if routes}}
+{{#if loading}}
+  loading
+{{else}}
   <route-select
     @routes={{routes}}
     @selectedRoute={{selectedRoute}}
@@ -11,8 +13,7 @@
 
   <route-map
     @routes={{routes}}
+    @refreshLocations={{refreshLocations}}
     @selectedRoute={{selectedRoute}}
   />
-{{else}}
-  loading
 {{/if}}
