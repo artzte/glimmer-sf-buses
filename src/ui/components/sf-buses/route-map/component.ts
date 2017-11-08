@@ -9,6 +9,20 @@ export default class RouteMap extends Component {
 
   didInsertElement() {
     this.loadGoogleMaps();
+
+    // confirmed that this is working.. thanks @locks
+    const ret = this.args.getBoo();
+    console.log('getBoo yielded', ret);
+  }
+
+  // this only fires if booMsg is shown in the template.
+  // I would like it to fire whever I get a new booCount without the
+  // requirement that I bind this getter in the template.
+  //
+  @tracked('args')
+  get booMsg() {
+    console.log('args', this.args);
+    return 'Boo ' + this.args.booCount.value;
   }
 
   loadGoogleMaps() {
@@ -47,12 +61,6 @@ export default class RouteMap extends Component {
     console.log('routes', routes);
 
     return await Promise.all(routes.map(route => fetchRouteLocations(route, time)));
-  }
-
-  @tracked('args')
-  get argsUpdated() {
-    console.log('args', this.args);
-    return this.args;
   }
 
   drawRoutes(routes) {
