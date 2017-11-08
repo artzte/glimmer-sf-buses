@@ -1,23 +1,15 @@
 import Component, { tracked } from '@glimmer/component';
 import Navigo from 'navigo';
-import { fetchRoutes } from '../../../utils/fetch-routes';
+import { fetchRoutes, fetchRouteLocations } from '../../../utils/fetch-routes';
 
 const router = new Navigo(null, true, '#!');
 
 export default class SfBuses extends Component {
-  @tracked routes = []
-  @tracked selectedRouteTag = ''
-  @tracked loading = true
+  @tracked routes : any;
+  @tracked selectedRouteTag = '';
 
   didInsertElement() {
-    router.hooks({
-      before: (done) => {
-        if (this.loading) {
-          return this.loadRoutes(done);
-        }
-        done();
-      },
-    });
+    this.loadRoutes();
 
     router
       .on({
@@ -33,7 +25,7 @@ export default class SfBuses extends Component {
   //
   @tracked('selectedRouteTag')
   get selectedRoute() {
-    const { selectedRouteTag } = this;
+    const selectedRouteTag = this.selectedRouteTag;
 
     if (!selectedRouteTag) return null;
 
@@ -46,18 +38,16 @@ export default class SfBuses extends Component {
     router.navigate(`/routes/${route.tag}`);
   }
 
-  // Route handlers
+  // Router callbacks
   //
-  loadRoutes(done) {
-    return fetchRoutes().then((routes) => {
-      this.routes = routes;
-      this.loading = false;
-      done();
-    });
+  loadRoutes() {
+    fetchRoutes()
+      .then((routes) => {
+        this.routes = routes;
+      });
   }
 
   showRoot() {
-    console.log('showRoot')
     this.selectedRouteTag = '';
   }
 
