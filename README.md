@@ -1,7 +1,11 @@
 # sf-buses
 
-This README outlines the details of collaborating on this Glimmer application.
-A short introduction of this app could easily go here.
+This is an experiment on using GlimmerJS to create a simple, mobile friendly
+app.
+
+## Inspirations and references
+
+* [Hacker news app](https://github.com/mhadaily/glimmer-hn-pwa) - used it for tooling puzzles, and figuring out basics of Navigo
 
 ## Prerequisites
 
