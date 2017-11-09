@@ -1,6 +1,5 @@
 import Component, { tracked } from '@glimmer/component';
-
-const apiKey = 'AIzaSyA7xlBaE1zcBwPAKJEnYUO0e2FOOPGAsb0';
+import { googleMapsApiKey } from '../../../../utils/secure';
 
 export default class RouteMap extends Component {
   map : any;
@@ -26,7 +25,7 @@ export default class RouteMap extends Component {
     document.body.appendChild(Object.assign(
       document.createElement('script'), {
         type: 'text/javascript',
-        src: `https://maps.googleapis.com/maps/api/js?key=${apiKey}`,
+        src: `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}`,
         onload: () => this.onMapInit()
       }));
   }
