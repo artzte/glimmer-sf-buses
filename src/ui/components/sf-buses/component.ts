@@ -5,16 +5,23 @@ import { fetchRoutes, fetchRouteLocations } from '../../../utils/fetch-routes';
 const router = new Navigo(null, true, '#!');
 
 export default class SfBuses extends Component {
-  @tracked routes : any;
-  @tracked selectedRouteTag = '';
+  @tracked routes : Array<any> = [];
+  @tracked selectedRoutes : Array<any>;
   @tracked loading: Boolean = true;
 
   didInsertElement() {
-    this.loadRoutes();
+    router.hooks({
+      before: (done) => {
+        if (this.loading) {
+          return this.loadRoutes(done);
+        }
+        done();
+      },
+    });
 
     router
       .on({
-        '/routes/:route': (params) => this.showRoute(params),
+        '/routes/:routes': (params) => this.showRoute(params),
       })
       .on(() => this.showRoot())
       .resolve();
@@ -29,38 +36,38 @@ export default class SfBuses extends Component {
     return await Promise.all(routes.map(route => fetchRouteLocations(route, time)));
   }
 
-  // Property handlers
-  //
-  @tracked('selectedRouteTag')
-  get selectedRoute() {
-    const selectedRouteTag = this.selectedRouteTag;
-
-    if (!selectedRouteTag) return null;
-
-    return this.routes.find(route => route.tag === selectedRouteTag);
-  }
-
   // Action handlers
   //
-  selectRoute(route) {
-    router.navigate(`/routes/${route.tag}`);
+  selectRoutes(routes) {
+    const tags = routes
+      .map(route => route.tag)
+      .join(',');
+
+    router.navigate(`/routes/${tags}`);
   }
 
   // Router callbacks
   //
-  async loadRoutes() {
+  async loadRoutes(done) {
     const routes = await fetchRoutes()
 
     this.routes = routes;
     this.loading = false;
+
+    done();
   }
 
   showRoot() {
-    this.selectedRouteTag = '';
+    this.selectedRoutes = [];
   }
 
   showRoute(params) {
-    console.log(params)
-    this.selectedRouteTag = params.route;
+    const tags = params.routes.split(',');
+    const routes = this.routes;
+    const matchingRoutes = tags
+      .map(tag => routes.find(route => route.tag === tag))
+      .filter(route => route);
+
+    this.selectedRoutes = matchingRoutes;
   }
 }

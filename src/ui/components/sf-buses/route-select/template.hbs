@@ -1,16 +1,12 @@
 <nav>
   <h2 onclick={{action showSelect}}>
-    {{#if @selectedRoute}}
-      {{@selectedRoute.title}}
-    {{else}}
-      All {{@routes.length}} routes
-    {{/if}}
+    {{selectedRoutesTitle}}
   </h2>
   <ul class={{visible}}>
     {{#each @routes key="@index" as |route|}}
       <rs-option
         @onclick={{action selectRoute route}}
-        @selectedRoute={{@selectedRoute}}
+        @selectedRoutes={{@selectedRoutes}}
         @route={{route}}
       >
         {{route.title}}

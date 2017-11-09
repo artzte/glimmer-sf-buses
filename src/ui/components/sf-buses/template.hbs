@@ -7,13 +7,13 @@
 {{else}}
   <route-select
     @routes={{routes}}
-    @selectedRoute={{selectedRoute}}
-    @selectRoute={{action selectRoute}}
+    @selectedRoutes={{selectedRoutes}}
+    @selectRoutes={{action selectRoutes}}
   />
 
   <route-map
     @routes={{routes}}
+    @selectedRoutes={{selectedRoutes}}
     @refreshLocations={{refreshLocations}}
-    @selectedRoute={{selectedRoute}}
   />
 {{/if}}
