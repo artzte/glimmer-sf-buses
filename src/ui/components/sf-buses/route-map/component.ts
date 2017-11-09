@@ -1,24 +1,45 @@
 import Component, { tracked } from '@glimmer/component';
 import { googleMapsApiKey } from '../../../../utils/secure';
 
+const LOCATIONS_REFRESH_CYCLE = 15000;
+const ROUTES_REFRESH_CYCLE = 500;
+
+function getRoutesRefreshTag(routes) {
+  return routes
+    .map(route => route.tag)
+    .sort()
+    .join('|');
+}
+
+function getRoutesToRefresh(selectedRoutes, allRoutes) {
+  return selectedRoutes.length ? selectedRoutes : allRoutes;
+}
+
 export default class RouteMap extends Component {
   map : any;
   markers : any;
-  routesToFetch : any;
-  timer : any;
+  routesRefreshTag : any;
+  mapRefreshTimer : any;
+  routesCheckTimer : any;
   refreshPromise : any;
 
   @tracked routesWithLocations: any;
 
   didInsertElement() {
     this.loadGoogleMaps();
-    this.timer = setInterval(() => {
+    this.mapRefreshTimer = setInterval(() => {
       this.refreshRoutes();
-    }, 3000)
+    }, LOCATIONS_REFRESH_CYCLE);
+
+
+    this.routesCheckTimer = setInterval(() => {
+      this.checkResetRoute();
+    }, ROUTES_REFRESH_CYCLE);
   }
 
   willDestroyElement() {
-    clearInterval(this.timer);
+    clearInterval(this.mapRefreshTimer);
+    clearInterval(this.routesCheckTimer);
   }
 
   loadGoogleMaps() {
@@ -46,14 +67,23 @@ export default class RouteMap extends Component {
     this.refreshRoutes();
   }
 
+  checkResetRoute() {
+    const newRoutesTarget = getRoutesToRefresh(this.args.selectedRoutes, this.args.routes);
+    const newRefreshTarget = getRoutesRefreshTag(newRoutesTarget);
+
+    if (this.routesRefreshTag !== newRefreshTarget) {
+      this.refreshRoutes();
+    }
+  }
+
   refreshRoutes() {
     if (this.refreshPromise) {
       return;
     }
 
-    const routesToFetch = this.args.selectedRoutes.length ? this.args.selectedRoutes : this.args.routes;
+    const routesToFetch = getRoutesToRefresh(this.args.selectedRoutes, this.args.routes);
 
-    this.routesToFetch = routesToFetch;
+    this.routesRefreshTag = getRoutesRefreshTag(routesToFetch);
 
     this.args.setNoBusesRunning(false);
 
