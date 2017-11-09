@@ -1,16 +1,27 @@
 <nav>
   <h2 onclick={{action showSelect}}>
     {{selectedRoutesTitle}}
+    {{#if @noBusesRunning}}
+      (No buses running now)
+    {{/if}}
   </h2>
-  <ul class={{visible}}>
-    {{#each @routes key="@index" as |route|}}
+  <div class='{{visible}} nav-wrapper'>
+    <ul>
       <rs-option
-        @onclick={{action selectRoute route}}
+        @onclick={{action selectRoute}}
         @selectedRoutes={{@selectedRoutes}}
-        @route={{route}}
       >
-        {{route.title}}
+        Show all routes
       </rs-option>
-    {{/each}}
-  </ul>
+      {{#each @routes key="@index" as |route|}}
+        <rs-option
+          @onclick={{action selectRoute route}}
+          @selectedRoutes={{@selectedRoutes}}
+          @route={{route}}
+        >
+          {{route.title}}
+        </rs-option>
+      {{/each}}
+    </ul>
+  </div>
 </nav>

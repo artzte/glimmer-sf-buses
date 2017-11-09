@@ -8,6 +8,7 @@ export default class SfBuses extends Component {
   @tracked routes : Array<any> = [];
   @tracked selectedRoutes : Array<any>;
   @tracked loading: Boolean = true;
+  @tracked noBusesRunning:Boolean = false;
 
   didInsertElement() {
     router.hooks({
@@ -32,7 +33,6 @@ export default class SfBuses extends Component {
   async refreshLocations(routes) {
     const time = 0;
 
-    console.log('fetching locations with', this, routes)
     return await Promise.all(routes.map(route => fetchRouteLocations(route, time)));
   }
 
@@ -44,6 +44,10 @@ export default class SfBuses extends Component {
       .join(',');
 
     router.navigate(`/routes/${tags}`);
+  }
+
+  setNoBusesRunning(noBusesRunning) {
+    this.noBusesRunning = noBusesRunning;
   }
 
   // Router callbacks

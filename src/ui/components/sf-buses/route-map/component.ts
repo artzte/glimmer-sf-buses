@@ -5,11 +5,21 @@ const apiKey = 'AIzaSyA7xlBaE1zcBwPAKJEnYUO0e2FOOPGAsb0';
 export default class RouteMap extends Component {
   map : any;
   markers : any;
+  routesToFetch : any;
+  timer : any;
+  refreshPromise : any;
 
   @tracked routesWithLocations: any;
 
   didInsertElement() {
     this.loadGoogleMaps();
+    this.timer = setInterval(() => {
+      this.refreshRoutes();
+    }, 3000)
+  }
+
+  willDestroyElement() {
+    clearInterval(this.timer);
   }
 
   loadGoogleMaps() {
@@ -23,27 +33,55 @@ export default class RouteMap extends Component {
 
   onMapInit() {
     const center = {
-      lat: 37.768528,
-      lng: -122.290307,
+      lat: 37.725655,
+      lng: -122.451146,
     };
 
     this.map = new google.maps.Map(document.getElementById('gmap-canvas'), {
-      zoom: 10,
+      zoom: 12,
       center,
+      mapTypeControl: false,
+      fullscreenControl: false,
     });
 
-    this.args.refreshLocations(this.args.routes)
+    this.refreshRoutes();
+  }
+
+  refreshRoutes() {
+    if (this.refreshPromise) {
+      return;
+    }
+
+    const routesToFetch = this.args.selectedRoutes.length ? this.args.selectedRoutes : this.args.routes;
+
+    this.routesToFetch = routesToFetch;
+
+    this.args.setNoBusesRunning(false);
+
+    this.refreshPromise = this.args.refreshLocations(routesToFetch);
+
+    this.refreshPromise
       .then((routesWithLocations) => {
         this.routesWithLocations = routesWithLocations;
+        this.refreshPromise = null;
         this.drawRoutes(routesWithLocations);
+
+        const countOfBuses = routesWithLocations.reduce((count, route) {
+          return count + route.buses.length;
+        }, 0);
+
+        this.args.setNoBusesRunning(countOfBuses === 0);
       });
   }
 
   drawRoutes(routes) {
     const map = this.map;
-    const markers = this.markers || [];
+    const markers = [];
+    const existingMarkers = this.markers || [];
 
-    // clear any existing markers
+    existingMarkers.forEach((marker) => {
+      marker.setMap(null);
+    });
 
     routes.forEach((route) => {
       const buses = route.buses;

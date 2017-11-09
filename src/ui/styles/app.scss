@@ -1,15 +1,11 @@
 @import 'reset';
 
-html {
-  height: 100%;
-  position: relative;
-}
-
 body {
   font-size: 12px;
   font-family: 'Roboto Condensed', sans-serif;
   background: #eee;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 h1, h2 {
@@ -33,17 +29,44 @@ h2, select {
   nav {
     position: relative;
 
-    ul {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.8);
-      height: 85vh;
+    .nav-wrapper {
       width: 100%;
+      height: 86vh;
       overflow-y: scroll;
+      position: absolute;
       top: 1000px;
-      z-index: 2;
 
       &.visible {
         top: 2rem;
+      }
+    }
+
+    ul {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      width: 100%;
+      z-index: 2;
+      display: flex;
+      flex-flow: column wrap;
+      height: 150vh;
+
+      li {
+        box-sizing: border-box;
+        height: 1.5rem;
+        color: #444;
+        width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        display: flex;
+        padding: 6px 4px;
+
+        a {
+          color: inherit;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }        }
       }
     }
   }
